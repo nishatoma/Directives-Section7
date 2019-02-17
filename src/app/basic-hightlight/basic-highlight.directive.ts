@@ -11,6 +11,8 @@ export class BasicHightlightDirective implements OnInit{
     }
 
     ngOnInit() {
+        // Accessing elements like this is not good practice, we should use different tools. 
+        // We will use the renderer later. See how its done in the 'better highlight' directive.
         this.elementRef.nativeElement.style.backgroundColor = 'green';
         this.elementRef.nativeElement.style.color = 'white';
         this.elementRef.nativeElement.textContent = 'Whatever I typed in my BasicHightlightDirective class.'
