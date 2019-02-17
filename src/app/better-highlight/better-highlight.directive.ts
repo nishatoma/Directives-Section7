@@ -1,4 +1,4 @@
-import { Directive, Renderer2, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Directive, Renderer2, OnInit, ElementRef, HostListener, HostBinding } from '@angular/core';
 
 @Directive({
   selector: '[appBetterHighlight]'
@@ -26,7 +26,11 @@ export class BetterHighlightDirective implements OnInit {
   // is specified as an argument as a string in the HostListener
   // method. 'mouseenter' is one of the supported events
   @HostListener('mouseenter') mouseOver(eventData: Event) {
-    this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'blue');
+    // This one uses renderer
+    // this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'blue');
+
+    // We can use HostBinding below like so to make the background color blue.
+    this.backgroundColor = 'blue';
     this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'white');
   }
 
@@ -36,5 +40,11 @@ export class BetterHighlightDirective implements OnInit {
     this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'white');
     this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'black');
   }
+
+  // Another way to change the background color is to user HostBinding
+  // Which property of the hosting element we want to bind? style, value, etc 
+  // What we are telling angular now is that 'on the element this directive sits,
+  // please access the style property.'
+  @HostBinding('style.backgroundColor') backgroundColor: string;
 
 }
