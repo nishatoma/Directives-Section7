@@ -25,7 +25,9 @@
         </li>
       </ng-template>
       <p appBasicHighlight>Style me with the new directive</p>
-      <p appBetterHighlight>Now this one uses the appBetterHighlight directive.</p>
+      <!-- Now we can use the defaultColor and highlightColor properties from
+      our directive class. -->
+      <p appBetterHighlight [defaultColor]="'yellow'" [highlightColor]="'green'">Now this one uses the appBetterHighlight directive.</p>
     </div>
   </div>
 </div>

@@ -1,9 +1,12 @@
-import { Directive, Renderer2, OnInit, ElementRef, HostListener, HostBinding } from '@angular/core';
+import { Directive, Renderer2, OnInit, ElementRef, HostListener, HostBinding, Input } from '@angular/core';
 
 @Directive({
   selector: '[appBetterHighlight]'
 })
 export class BetterHighlightDirective implements OnInit {
+  // These values can be now overwritten from outside.
+  @Input() defaultColor: string = 'transparent';
+  @Input() highlightColor: string = 'blue';
 
   // This time instead of accessing the nativeElement using dom we will
   // use the renderer instead.
@@ -20,6 +23,8 @@ export class BetterHighlightDirective implements OnInit {
 
     // this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'blue');
     // this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'white');
+
+    this.backgroundColor = this.defaultColor;
   }
 
   // This will trigger, whenever some event occurs. The event
@@ -30,14 +35,18 @@ export class BetterHighlightDirective implements OnInit {
     // this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'blue');
 
     // We can use HostBinding below like so to make the background color blue.
-    this.backgroundColor = 'blue';
+    this.backgroundColor = this.highlightColor;
     this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'white');
   }
 
   // Another listener we can add here is for when the mouse is no longer hovering.
   // 'mouseleave' is another event supported by Angular.
   @HostListener('mouseleave') mouseLeave(eventData: Event) {
-    this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'white');
+    // this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', 'white');
+
+    // This one uses HostBinding
+    this.backgroundColor = this.defaultColor;
+    // This one uses renderer
     this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'black');
   }
 
@@ -45,6 +54,6 @@ export class BetterHighlightDirective implements OnInit {
   // Which property of the hosting element we want to bind? style, value, etc 
   // What we are telling angular now is that 'on the element this directive sits,
   // please access the style property.'
-  @HostBinding('style.backgroundColor') backgroundColor: string;
+  @HostBinding('style.backgroundColor') backgroundColor: string = this.defaultColor;
 
 }
